@@ -1,0 +1,19 @@
+CREATE TABLE users (
+  id INT(11) NOT NULL AUTO_INCREMENT,
+  name VARCHAR(60) NOT NULL,
+  email VARCHAR(100) NOT NULL UNIQUE,
+  age TINYINT(3) NOT NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE bikes (
+  id INT(11) NOT NULL AUTO_INCREMENT,
+  model VARCHAR(60) NOT NULL,
+  price DECIMAL(5,2) NOT NULL,
+  userId INT(11) NOT NULL,
+  PRIMARY KEY (id),
+  KEY user_id (userId),
+  CONSTRAINT bikes_fk 
+  FOREIGN KEY (userId) 
+  REFERENCES users (id)
+);
