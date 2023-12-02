@@ -147,7 +147,7 @@ mysql> DESCRIBE users;
 +-------------+-------------+------+-----+---------+----------------+
 5 rows in set (0,00 sec)
 
-mysql> INSERT INTO users (name,email,phone) VALUES ('Alvaro', 'alv@gmail.com', 4455646);
+mysql> INSERT INTO users (name,phone) VALUES ('Alvaro', 'alv@gmail.com', 4455646);
 Query OK, 1 row affected (0,01 sec)
 
 mysql> SELECT * FROM users;
