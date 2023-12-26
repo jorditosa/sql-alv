@@ -209,3 +209,91 @@ mysql> SELECT * FROM users RIGHT JOIN bikes ON bikes.userId = users.id;
 +------+--------+----------------------+---------------------+-----------+----+---------+--------+--------+
 2 rows in set (0,00 sec)
 
+
+-- SELECT DISTINCT, para retornar solo valores que sean diferentes
+
+mysql> SELECT DISTINCT phone
+    -> FROM users;
++-----------+
+| phone     |
++-----------+
+| 123456789 |
+| 987654321 |
+| 555555555 |
++-----------+
+3 rows in set (0,00 sec)
+
+mysql> SELECT DIFFERENT phone FROM users;
+ERROR 1054 (42S22): Unknown column 'DIFFERENT' in 'field list'
+mysql> SELECT UNIQUE phone FROM users;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'UNIQUE phone FROM users' at line 1
+mysql> SELECT DISTINCT phone, email FROM users;
++-----------+----------------------+
+| phone     | email                |
++-----------+----------------------+
+| 123456789 | usuario1@example.com |
+| 987654321 | usuario2@example.com |
+| 555555555 | usuario3@example.com |
+| 123456789 | usuario4@example.com |
++-----------+----------------------+
+4 rows in set (0,00 sec)
+
+mysql> INSERT INTO users (11,'Alvaro','usuario1@example.com','2023-12-11 10:00:00',123456789);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '11,'Alvaro','usuario1@example.com','2023-12-11 10:00:00',123456789)' at line 1
+mysql> INSERT INTO users VALUES (11,'Alvaro','usuario1@example.com','2023-12-11 10:00:00',123456789);
+ERROR 1062 (23000): Duplicate entry 'usuario1@example.com' for key 'users.email'
+mysql> INSERT INTO users VALUES (11,'Alvaro','usuario9@example.com','2023-12-11 10:00:00',123456789);
+Query OK, 1 row affected (0,00 sec)
+
+mysql> SELECT * FROM users;
++----+--------+----------------------+---------------------+-----------+
+| id | name   | email                | userCreated         | phone     |
++----+--------+----------------------+---------------------+-----------+
+|  5 | Alvaro | usuario1@example.com | 2023-12-11 10:00:00 | 123456789 |
+|  6 | Jordi  | usuario2@example.com | 2023-12-12 11:30:00 | 987654321 |
+|  7 | Marta  | usuario3@example.com | 2023-12-13 09:45:00 | 555555555 |
+|  9 | Miriam | usuario4@example.com | 2023-12-05 00:00:00 | 123456789 |
+| 11 | Alvaro | usuario9@example.com | 2023-12-11 10:00:00 | 123456789 |
++----+--------+----------------------+---------------------+-----------+
+5 rows in set (0,00 sec)
+
+mysql> SELECT DISTINCT name FROM users;
++--------+
+| name   |
++--------+
+| Alvaro |
+| Jordi  |
+| Marta  |
+| Miriam |
++--------+
+4 rows in set (0,00 sec)
+
+mysql> 
+
+
+
+-- SELECT COUNT como contar el numero de registros de una tabla
+mysql> SELECT COUNT(*) FROM users;
++----------+
+| COUNT(*) |
++----------+
+|        5 |
++----------+
+1 row in set (0,06 sec)
+
+-- CONSTRAINT CHECK
+
+mysql> USE alv_proy;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> ALTER TABLE bikes ADD CONSTRAINT precio_min CHECK (precio > 60);
+Query OK, 2 rows affected (0,09 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO bikes VALUES (3,'Decathlon',50,7);
+ERROR 3819 (HY000): Check constraint 'precio_min' is violated.
+mysql> INSERT INTO bikes VALUES (3,'Decathlon',80,7);
+Query OK, 1 row affected (0,01 sec)
+
